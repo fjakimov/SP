@@ -1,0 +1,45 @@
+/* Дадена е текстуална датотека (livce.txt) која претставува ливче во спортска обложувалница.
+На почетокот во датотеката, во посебен ред е запишана сумата на уплата (цел број).
+Потоа во секој ред од датотеката е запишан по еден тип во следниот формат: 
+   ab12 1 1.25
+Првиот број е шифрата на типот (низа од знаци која не е подолга од 9 знаци), вториот број е типот (може да биде 1, 0 или 2) додека третиот број е коефициентот (реален број).
+Ваша задача е да се испечати типот со најголем коефициент како и можната добивка на ливчето. Доколку има повеќе типови со ист максимален коефициент, да се испечати првиот.
+Можната добивка се пресметува како производ на сите коефициенти со сумата на уплата. 
+*/
+
+#include <stdio.h>
+#include<string.h>
+// ne menuvaj ovde
+void wf() {
+    FILE *f = fopen("livce.txt", "w");
+    char c;
+    while((c = getchar()) != '#') {
+        fputc(c, f);
+    }
+    fclose(f);
+}
+
+int main() {
+    wf();
+	// vasiot kod pocnuva od ovde
+    FILE *f= fopen("livce.txt","r");
+    int sum,type,maxType;
+    char code[9],maxCode[9];
+    double coef,biggestCoef=0.0;
+    double proizvodCoef=1;
+    fscanf(f,"%d",&sum);
+    while(fscanf(f,"%s",code)!=EOF){
+        fscanf(f,"%d",&type);
+        fscanf(f,"%lf",&coef);
+        if(coef>biggestCoef){
+            biggestCoef=coef;
+            maxType=type;
+            strcpy(maxCode,code);
+        }
+        proizvodCoef*=coef;
+    }
+    printf("%s %d %.2f\n",maxCode,maxType,biggestCoef);
+    printf("%.2f",proizvodCoef*sum);
+	return 0;
+
+}
