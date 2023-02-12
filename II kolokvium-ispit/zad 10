@@ -1,0 +1,47 @@
+/* Во датотеката podatoci.txt се запишани редови со низи од знаци (секој не подолг од 80 знаци).
+Од стандарден влез се читаат два знака z1 и z2. Да се напише програма со која на стандарден излез ќе се испечатат поднизите од секој ред од датотеката составени од 
+знаците што се наоѓаат меѓу z1 и z2 (без нив). Секоја подниза се печати во нов ред.
+Се смета дека секој ред од датотеката точно еднаш ги содржи знаците z1 и z2, знакот z1 секогаш се наоѓа пред знакот z2, а меѓу z1 и z2 секогаш има барем еден знак.
+*/
+
+#include <stdio.h>
+#include<ctype.h>
+#include<string.h>
+    void wtf() {
+        FILE *f = fopen("podatoci.txt", "w");
+        char c;
+        while((c = getchar()) != '#') {
+            fputc(c, f);
+        }
+        fclose(f);
+    }
+    int main() {
+        wtf();
+        FILE *f= fopen("podatoci.txt","r");
+        char z1,z2,line[80];
+        int firstDigit=0,lastDigit=0;
+        scanf("\n%c%c",&z1,&z2);
+        while(fgets(line,80,f))
+        {
+            int i, j, k;
+            line[strlen(line)-1]='\0';
+            for( i = 0;line[i]!='\n';i++){
+                if(line[i]==z1 || line[i]==32){
+                    firstDigit=i;
+                    break;
+                }
+            }
+            for( j=firstDigit+1;line[j]!='\n';j++){
+                if(line[j]==z2){
+                    lastDigit=j;
+                    break;
+                }
+            }
+            for(k = firstDigit+1;k<lastDigit;k++){
+                printf("%c",line[k]);
+            }
+            printf("\n");
+        }
+        fclose(f);
+        return 0;
+    }
